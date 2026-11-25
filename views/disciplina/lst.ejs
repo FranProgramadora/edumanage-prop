@@ -1,0 +1,93 @@
+<%- include('../cabecalho') %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2><i class="bi bi-journal-bookmark me-2 text-success"></i>Gerenciamento de Disciplinas</h2>
+    <a href="/disciplina/add" class="btn btn-success"><i class="bi bi-plus-circle me-1"></i> Nova Disciplina</a>
+</div>
+
+<!-- Filtro / Pesquisa -->
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body bg-white rounded">
+        <form action="/disciplina/lst" method="GET" class="row g-2">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar disciplina por nome..." value="<%= typeof pesquisa !== 'undefined' ? pesquisa : '' %>">
+                </div>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-success">Pesquisar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th>Código</th>
+                <th>Nome da Disciplina</th>
+                <th>Carga Horária</th>
+                <th>Status</th>
+                <th class="text-center" style="width: 180px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (disciplinas.length > 0) { %>
+                <% disciplinas.forEach(disc => { %>
+                    <tr>
+                        <td class="fw-bold"><%= disc.codigo %></td>
+                        <td><%= disc.nome %></td>
+                        <td><%= disc.cargaHoraria %>h</td>
+                        <td>
+                            <% if (disc.ativa) { %>
+                                <span class="badge bg-success">Ativa</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary">Inativa</span>
+                            <% } %>
+                        </td>
+                        <td class="text-center">
+                            <!-- Botão Visualizar -->
+                            <button class="btn btn-sm btn-info text-white me-1" data-bs-toggle="modal" data-bs-target="#modalVerDisc<%= disc._id %>" title="Visualizar Detalhes"><i class="bi bi-eye"></i></button>
+                            <!-- Botão Editar -->
+                            <a href="/disciplina/edt/<%= disc._id %>" class="btn btn-sm btn-warning me-1" title="Editar"><i class="bi bi-pencil"></i></a>
+                            <!-- Form Excluir (POST seguro) -->
+                            <form action="/disciplina/del/<%= disc._id %>" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente excluir esta disciplina?');">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Excluir"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+
+                    <!-- Modal Visualizar Detalhes -->
+                    <div class="modal fade" id="modalVerDisc<%= disc._id %>" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title"><i class="bi bi-journal-bookmark me-2"></i>Detalhes da Disciplina</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    <p><strong>Código da Disciplina:</strong> <%= disc.codigo %></p>
+                                    <p><strong>Nome Oficial:</strong> <%= disc.nome %></p>
+                                    <p><strong>Carga Horária Total:</strong> <%= disc.cargaHoraria %> Horas</p>
+                                    <p><strong>Status de Oferta:</strong> <%= disc.ativa ? 'Ativa' : 'Inativa' %></p>
+                                    <p class="text-muted small mb-0">Cadastrada em: <%= new Date(disc.createdAt).toLocaleDateString('pt-BR') %></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Nenhuma disciplina encontrada.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../rodape') %>
