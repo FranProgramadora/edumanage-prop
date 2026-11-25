@@ -1,5 +1,7 @@
 # EduManage Pro — Sistema de Gestão Acadêmica (Versão Otimizada e Reorganizada)
 
+
+[https://edumanage-prop.onrender.com](https://edumanage-prop.onrender.com)
 Projeto Final aperfeiçoado para a disciplina de **Desenvolvimento Back-End** do curso Superior de Tecnologia em Sistemas para Internet a Distância (TSIaD) — IFSul.
 
 ---
@@ -89,3 +91,4 @@ edumanage-pro/
    - **Build Command:** `npm install`
    - **Start Command:** `npm start`
    - **Environment Variables:** Adicione `MONGODB_URI` com a URL do seu MongoDB Atlas.
+[https://edumanage-prop.onrender.com](https://edumanage-prop.onrender.com)
